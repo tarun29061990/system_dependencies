@@ -16,25 +16,28 @@ class Main:
         self.graph = defaultdict(list)
         self.installOrder = OrderedDict()
         self.edges = defaultdict(int)
-
         self.file = outFile
+
 
     def process_command(self, command):
         command = self.sanitize_command(command)
         print(command)
+        output = []
 
         if command[0] == "DEPEND":
             # depend
-            self.graph, self.edges, output = Depend().process(command, self.graph, self.edges)
+            self.graph, self.edges, output = Depend().process(command[1:], self.graph, self.edges)
         elif command[0] == "INSTALL":
-            self.installOrder = Install().process(command, self.graph, self.installOrder)
+            self.installOrder, output = Install().process(command[1:], self.graph, self.installOrder)
         elif command[0] == "LIST":
-            self.graph = List().process(command, self.graph, self.installOrder)
-        else:
+            output = List().process(command[1:], self.installOrder)
+        elif command[0] == "REMOVE":
             # remove
-            self.graph = Remove().process(command, self.graph, self.installOrder)
-
-        self.file.writeLines(output)
+            self.graph, output = Remove().process(command[1:], self.graph, self.edges, self.installOrder)
+        else:
+            self.file.close()
+        if output:
+            self.file.writelines(output)
 
     def sanitize_command(self, command):
         i = 0
@@ -52,7 +55,7 @@ def run():
     inputFilePath = '../input.txt'
     outFilePath = "../output.txt"
     outFile = open(outFilePath, "w")
-    main = Main(outFile=outFile)
+    main = Main(outFile)
     with open(inputFilePath) as fp:
         line = fp.readline()
         cnt = 1
@@ -61,7 +64,6 @@ def run():
             print("Line {}: {}".format(cnt, line.strip()))
             line = fp.readline()
             cnt += 1
-    outFile.close()
 
 
 if __name__ == "__main__":

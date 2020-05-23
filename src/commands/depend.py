@@ -9,7 +9,7 @@ class Depend:
                 edges[package] += 1
 
         print("".join(commandArr))
-        return [graph, edges, " ".join(commandArr)+"\n"]
+        return [graph, edges, "DEPEND "+" ".join(commandArr)+"\n"]
 
     def sanitize(self, arr):
         i = 0
