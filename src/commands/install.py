@@ -2,17 +2,18 @@ class Install:
     def process(self, commandArr, graph, installed_packages):
         commandArr = self.sanitize(commandArr)
         package = commandArr[0]
-
+        output = []
         if package in installed_packages:
-            print(package+ " is already installed.")
+            output.append(package+ " is already installed. \n")
         else:
             installed_packages[package] = 1
             dependencies = graph[package]
             for dep in dependencies:
                 if dep not in installed_packages:
-                    print("Installing "+dep)
+                    output.append("Installing "+dep+" \n")
+            output.append("Installing "+package+" \n")
 
-        return installed_packages
+        return [installed_packages, output]
 
     def sanitize(self, arr):
         i = 0
