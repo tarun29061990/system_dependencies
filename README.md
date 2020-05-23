@@ -25,7 +25,7 @@ output will be written in output.txt file
 for testing with other inputs try to modify input.txt file located in the root folder of the project.
 
 ### How to run tests
-Due ot shortage of I couldn't able to write tests
+Due ot shortage of time I couldn't able to write tests
 
 ### Project Structure and Logic
 
