@@ -1,8 +1,13 @@
 class Depend:
-    def process(self, commandArr):
+    def process(self, commandArr, graph):
         commandArr = self.sanitize(commandArr)
+        parent = commandArr[0]
+        for i in range(1, len(commandArr)):
+            package = commandArr[i]
+            if package != " ":
+                graph[parent].append(package)
 
-        return commandArr
+        return graph
 
     def sanitize(self, arr):
         i = 0
